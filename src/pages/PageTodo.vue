@@ -39,7 +39,7 @@ export default {
   name: 'PageTodo',
   data() {
     return {
-      showAjouterTache: true
+      showAjouterTache: false
     }
   },
   computed: {

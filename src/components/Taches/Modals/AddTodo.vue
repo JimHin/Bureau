@@ -86,7 +86,7 @@
     </q-card>
 </template>
 <script>
-
+import { mapActions } from "vuex";
 export default {
     data (){
         return{
@@ -99,6 +99,7 @@ export default {
         }
     },
     methods:{
+        ...mapActions('taches', ['ajouterTache']),
         soumettreFormulaire(){
             this.$refs.nom.validate()
             if (!this.$refs.nom.hasError) {
@@ -106,7 +107,7 @@ export default {
             }
         },
         soumettreTache(){
-
+            this.ajouterTache(this.tacheASauvegarder)
         }
     }
 }
