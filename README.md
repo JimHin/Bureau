@@ -1,6 +1,6 @@
 # Dark Todo (dark-todo)
 
-Une application de gestion de tâche
+Une application de bureautique (Todolist, rdv, notes, kanban projets) réalisée avec le framework quasar et firebase
 
 ## Install the dependencies
 ```bash
