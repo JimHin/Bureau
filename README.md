@@ -1,6 +1,6 @@
 # Bureau 
 
-Version: v0.0.2
+Version: v0.0.3
 
 Une application de bureautique (Todolist, rdv, notes, kanban projets) réalisée avec le framework quasar et firebase
 Cette version de l'application permet de :
