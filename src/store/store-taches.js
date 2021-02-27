@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { uid } from 'quasar'
 const state = {
     taches:{
-/*         'ID1': {
+        'ID1': {
             nom: 'aller au shopping',
             accomplie: false,
             dateEcheance: '2020/02/25',
@@ -19,7 +19,7 @@ const state = {
             accomplie: false,
             dateEcheance: '2020/02/25',
             heureEcheance: '17:38'
-        } */
+        }
     }
 }
 
