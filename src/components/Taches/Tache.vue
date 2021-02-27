@@ -1,6 +1,6 @@
 <template>
     <q-item
-      @click="updateTache({id: id, updates: { accomplie: !tache.accomplie }})"
+      @click="modifierTache({id: id, updates: { accomplie: !tache.accomplie }})"
       :class="!tache.accomplie ? 'bg-orange-1' : 'bg-green-3'"
       clickable 
       v-ripple
@@ -15,7 +15,9 @@
           </q-item-label>
         </q-item-section>
 
-        <q-item-section side>
+        <q-item-section 
+        v-if="tache.dateEcheance"
+        side>
           <div class="row">
             <div class="column justify-center">
               <q-icon 
@@ -61,7 +63,7 @@ export default {
   name: 'Tache',
   props: ['tache', 'id'],
   methods: {
-      ...mapActions('taches', ['updateTache', 'supprimerTache']),
+      ...mapActions('taches', ['modifierTache', 'supprimerTache']),
       promptPourSupprimer(id){
           this.$q.dialog({
               title: 'Confirmer',

@@ -1,7 +1,8 @@
 import Vue from 'vue'
+import { uid } from 'quasar'
 const state = {
     taches:{
-        'ID1': {
+/*         'ID1': {
             nom: 'aller au shopping',
             accomplie: false,
             dateEcheance: '2020/02/25',
@@ -18,7 +19,7 @@ const state = {
             accomplie: false,
             dateEcheance: '2020/02/25',
             heureEcheance: '17:38'
-        }
+        } */
     }
 }
 
@@ -29,20 +30,31 @@ const getters = {
 }
 
 const mutations = {
-    updateTache(state, payload){
+    modifierTache(state, payload){
        Object.assign(state.taches[payload.id], payload.updates)
     },
     supprimerTache(state, id){
         Vue.delete(state.taches, id)
-     }
+    },
+    ajouterTache(state, payload){
+        Vue.set(state.taches, payload.id, payload.tache)
+    }
 }
 
 const actions = {
-    updateTache ({ commit }, payload) {
-        commit('updateTache', payload)
+    modifierTache ({ commit }, payload) {
+        commit('modifierTache', payload)
     },
     supprimerTache ({ commit }, id) {
         commit('supprimerTache', id)
+    },
+    ajouterTache ({ commit }, tache) {
+        let tacheId = uid()
+        let payload = {
+            id: tacheId,
+            tache: tache
+        }
+        commit('ajouterTache', payload)
     }
 }
 
