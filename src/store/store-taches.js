@@ -30,7 +30,7 @@ const getters = {
 }
 
 const mutations = {
-    updateTache(state, payload){
+    modifierTache(state, payload){
        Object.assign(state.taches[payload.id], payload.updates)
     },
     supprimerTache(state, id){
@@ -42,8 +42,8 @@ const mutations = {
 }
 
 const actions = {
-    updateTache ({ commit }, payload) {
-        commit('updateTache', payload)
+    modifierTache ({ commit }, payload) {
+        commit('modifierTache', payload)
     },
     supprimerTache ({ commit }, id) {
         commit('supprimerTache', id)

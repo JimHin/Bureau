@@ -5,7 +5,9 @@
     <!-- composant list permettant d'afficher la liste des tâches -->
     <q-list
     separator 
-    bordered>
+    bordered
+    v-if="Object.keys(taches).length"
+    >
       <!-- Titre de la liste  -->
       <q-item-label header>Liste des Tâches</q-item-label>
       <!-- Parcours de l'objet taches pour itérer les tâches -->
@@ -30,7 +32,7 @@
     </div>
     <!--Appel au composant AddTodo.vue dans une balise q-dialog qui s'appuie sur le booléen showAjouterTache pour s'afficher ou non -->
     <q-dialog v-model="showAjouterTache">
-      <add-todo/>
+      <add-todo @fermer="showAjouterTache = false" />
     </q-dialog>
 
   </q-page>

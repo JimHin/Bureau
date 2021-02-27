@@ -28,9 +28,20 @@
                     outlined 
                     v-model="tacheASauvegarder.nom"
                     :rules="[val => !!val || 'Le nom est requis']"
-                    ref="nom" 
-                    label="Nom de la tâche" 
-                    />
+                    ref="nom"
+                    autofocus
+                    label="Nom de la tâche"
+                    class="col" 
+                    >
+                        <template v-slot:append>
+                            <q-icon
+                            v-if="tacheASauvegarder.nom"
+                            name="close" 
+                            @click="tacheASauvegarder.nom = ''" 
+                            class="cursor-pointer" 
+                            />
+                        </template>
+                    </q-input>
                 </div>
                 
 
@@ -39,10 +50,17 @@
                     <q-input
                     outlined 
                     v-model="tacheASauvegarder.dateEcheance"
+                    class="col"
                     ref="date"
                     label="date d'échéance" 
                     >
-                        <template v-slot:append>
+                        <template v-slot:append>                            
+                            <q-icon
+                            v-if="tacheASauvegarder.dateEcheance"
+                            name="close" 
+                            @click="effacerDateEcheance" 
+                            class="cursor-pointer" 
+                            />
                             <q-icon name="event" class="cursor-pointer">
                             <!-- Popup permettant d'afficher un Date Picker -->
                             <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -53,28 +71,38 @@
                                 </q-date>
                             </q-popup-proxy>
                             </q-icon>
+
                         </template>
                     </q-input>
                 </div>
                 <!-- Entrée permettant la saisie de l'heure d'échéance prévue de la Tâche -->
-                <div class="row q-mb-sm">
+                <div 
+                v-if="tacheASauvegarder.dateEcheance    "
+                class="row q-mb-sm">
                     <q-input 
                     outlined 
                     v-model="tacheASauvegarder.heureEcheance"
                     ref="time"
                     label="heure d'échéance" 
+                    class="col"
                     >
                         <template v-slot:append>
-                        <q-icon name="access_time" class="cursor-pointer">
-                            <!-- Popup permettant d'afficher un Time Picker -->
-                            <q-popup-proxy transition-show="scale" transition-hide="scale">
-                            <q-time v-model="tacheASauvegarder.heureEcheance">
-                                <div class="row items-center justify-end">
-                                <q-btn v-close-popup label="Close" color="primary" flat />
-                                </div>
-                            </q-time>
-                            </q-popup-proxy>
-                        </q-icon>
+                            <q-icon
+                            v-if="tacheASauvegarder.heureEcheance"
+                            name="close" 
+                            @click="effacerHeureEcheance" 
+                            class="cursor-pointer" 
+                            />
+                            <q-icon name="access_time" class="cursor-pointer">
+                                <!-- Popup permettant d'afficher un Time Picker -->
+                                <q-popup-proxy transition-show="scale" transition-hide="scale">
+                                <q-time v-model="tacheASauvegarder.heureEcheance">
+                                    <div class="row items-center justify-end">
+                                    <q-btn v-close-popup label="Close" color="primary" flat />
+                                    </div>
+                                </q-time>
+                                </q-popup-proxy>
+                            </q-icon>
                         </template>
                     </q-input> 
                 </div>
@@ -128,6 +156,13 @@ export default {
             this.ajouterTache(this.tacheASauvegarder)
             // On emet un évènement que je nomme ici "fermer" permettant de signifier la fermeture du modal
             this.$emit('fermer')
+        },
+        effacerDateEcheance(){
+            this.tacheASauvegarder.dateEcheance = ''
+            this.tacheASauvegarder.heureEcheance = ''
+        },
+        effacerHeureEcheance(){
+            this.tacheASauvegarder.heureEcheance = ''
         }
     }
 }
