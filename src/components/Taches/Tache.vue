@@ -8,7 +8,7 @@
         <q-item-section>
           <q-checkbox :value="tache.accomplie" class="no-pointer-events"></q-checkbox>
         </q-item-section>
-        <q-item-section>
+        <q-item-section id="title">
           <q-item-label
           :class="{ 'text-strike' : tache.accomplie }">
             {{ tache.nom }}
@@ -46,22 +46,43 @@
         </q-item-section>
         <q-item-section side>
             <q-btn
+            @click.stop="showModifierTache = true" 
+            flat
+            round
+            color="brown-7"
+            icon="edit"
+            />
+            <q-btn
             @click.stop="promptPourSupprimer(id)" 
             flat
             round
-            color="grey-7"
+            color="brown-7"
             icon="delete"
-            >
-
-            </q-btn>
+            />
         </q-item-section>
+
+        <!--Appel au composant EditTodo.vue dans une balise q-dialog qui s'appuie sur le booléen showAjouterTache pour s'afficher ou non -->
+        <q-dialog v-model="showModifierTache">
+          <edit-todo 
+          @fermer="showModifierTache = false"
+          :tache="tache"
+          :id="id"
+          />
+        </q-dialog>
+
       </q-item>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from "vuex"
+import EditTodo from './Modals/EditTodo.vue'
 export default {
   name: 'Tache',
   props: ['tache', 'id'],
+  data(){
+        return{
+          showModifierTache: false
+        }
+  },
   methods: {
       ...mapActions('taches', ['modifierTache', 'supprimerTache']),
       promptPourSupprimer(id){
@@ -79,9 +100,14 @@ export default {
               this.supprimerTache(id)
           })
       }
+  },
+  components: {
+    EditTodo
   }
 }
 </script>
 <style scoped>
-
+  #title{
+    font-size: 1em;
+  }
 </style>

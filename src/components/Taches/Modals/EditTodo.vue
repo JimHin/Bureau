@@ -1,7 +1,7 @@
 <!-- Composant AddTodo (<add-todo/> dans le composant parent). Il est chargé d'afficher le formulaire permettant d'ajouter une tâche à la liste -->
 <template>
     <q-card>
-        <modal-header>Ajouter une Tâche</modal-header>
+        <modal-header>Modifier une Tâche</modal-header>
         <!-- Formulaire d'ajout d'une Tâche. On ajoute prevent derrière l'appel à submit pour que la page ne se recharge pas après la soumission du formulaire -->
         <form 
         @submit.prevent="soumettreFormulaire"
@@ -42,6 +42,7 @@ import ModalButtons from './Shared/ModalButtons.vue'
 import ModalDateEcheance from './Shared/ModalDateEcheance.vue'
 // Export du composant. Ici je ne lui ai pas donné de nom
 export default {
+    props: ['tache', 'id'],
     data (){
         return{
             // Objet représentant le modèle de données d'une tâche
@@ -62,7 +63,7 @@ export default {
     },
     methods:{
         // On map les actions provenant du store. Ici on a besoin de l'action ajouterTache()
-        ...mapActions('taches', ['ajouterTache']),
+        ...mapActions('taches', ['modifierTache']),
         // Méthode permettant de valider les données du formulaire et d'appeler soumettreTache s'ils ne renvoient pas d'erreur
         soumettreFormulaire(){
             this.$refs.nomTacheModal.$refs.nom.validate()
@@ -73,7 +74,10 @@ export default {
         // Méthode qui fait appel à l'action ajouterTache
         soumettreTache(){
             // Appel à ajouterTache en lui passant la tache à sauvegarder en paramètre
-            this.ajouterTache(this.tacheASauvegarder)
+            this.modifierTache({
+                id: this.id,
+                updates: this.tacheASauvegarder
+            })
             // On emet un évènement que je nomme ici "fermer" permettant de signifier la fermeture du modal
             this.$emit('fermer')
         },
@@ -84,6 +88,9 @@ export default {
         effacerHeureEcheance(){
             this.tacheASauvegarder.heureEcheance = ''
         }
+    },
+    mounted() {
+        this.tacheASauvegarder = Object.assign({}, this.tache)
     }
 }
 </script>
