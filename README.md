@@ -1,6 +1,6 @@
 # Bureau 
 
-Version: v0.0.1
+Version: v0.0.3
 
 Une application de bureautique (Todolist, rdv, notes, kanban projets) réalisée avec le framework quasar et firebase
 Cette version de l'application permet de :
@@ -9,6 +9,7 @@ Cette version de l'application permet de :
         - Ajouter une tâche dans la liste des tâches (nom, date échéance, heure échéance)
         - Marquer une tâche comme accomplie
         - Supprimer une tâche
+        - Modifier une tâche en partant sur un formulaire préremplie par le contenu actuel
 
 
 
