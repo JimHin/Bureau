@@ -24,8 +24,29 @@ const state = {
 }
 
 const getters = {
-    taches: (state) => {
-        return state.taches
+    // getters qui retourne les tâches non accomplies
+    tachesARealiser: (state) => {
+        let taches = {}
+        Object.keys(state.taches).forEach(function (key) {
+            let tache = state.taches[key]
+            if (!tache.accomplie) {
+                taches[key] = tache
+            }
+
+        });
+        return taches
+    },
+    // getters qui retourne les tâches accomplies
+    tachesAccomplies: (state) => {
+        let taches = {}
+        Object.keys(state.taches).forEach(function (key) {
+            let tache = state.taches[key]
+            if (tache.accomplie) {
+                taches[key] = tache
+            }
+
+        });
+        return taches
     }
 }
 

@@ -2,22 +2,20 @@
   <q-page
   class="q-pa-md bg-dark"
   >
-    <!-- composant list permettant d'afficher la liste des tâches -->
-    <q-list
-    separator 
-    bordered
-    v-if="Object.keys(taches).length"
-    >
-      <!-- Titre de la liste  -->
-      <q-item-label header>Liste des Tâches</q-item-label>
-      <!-- Parcours de l'objet taches pour itérer les tâches -->
-      <tache
-        v-for="(tache, key ) in taches"
-        :key='key'
-        :tache="tache"
-        :id="key"
-      ></tache>
-    </q-list>
+    <aucune-tache 
+    v-if="!Object.keys(tachesARealiser).length">
+    </aucune-tache>
+
+    <tache-a-realiser 
+    :tachesARealiser = "tachesARealiser" 
+    v-else
+    />
+
+    <tache-accomplie 
+    :tachesAccomplies = "tachesAccomplies" 
+    v-if="Object.keys(tachesAccomplies).length"
+    />
+
     <!-- Conteneur de placement du bouton ajouter -->
     <div class="absolute-bottom text-center q-mb-lg">
       <!-- Bouton avec une icône + permettant d'afficher le modal contenant le formulaire d'ajout exprimé ci-dessous -->
@@ -39,11 +37,13 @@
 </template>
 
 <script>
-// import des deux composants nécessaires pour accéder aux tâches et au formulaire d'ajout
-import Tache from 'src/components/Taches/Tache.vue'
+// import des composants nécessaires pour accéder aux tâches à accomplir ou accomplies et au formulaire d'ajout
 import AddTodo from 'src/components/Taches/Modals/AddTodo'
+import TacheARealiser from 'src/components/Taches/TacheARealiser.vue'
+import TacheAccomplie from 'src/components/Taches/TacheAccomplie.vue'
 // import des Getters contenu dans le store
 import { mapGetters } from 'vuex'
+import AucuneTache from 'src/components/Taches/AucuneTache.vue'
 export default {
   name: 'PageTodo',
   data() {
@@ -53,12 +53,19 @@ export default {
   },
   computed: {
     // On permet ici à PageTodo.vue d'accéder aux getters du store
-    ...mapGetters('taches', ['taches'])
+    ...mapGetters('taches', ['tachesARealiser', 'tachesAccomplies'])
+  },
+  mounted() {
+    this.$root.$on('showAjouterTache', () => {
+      this.showAjouterTache = true
+    })
   },
   components: {
     // Après leurs import on déclare nos deux composants comme étant embarqués dans celui-ci
-    Tache,
-    AddTodo
+    AddTodo,
+    TacheARealiser,
+    TacheAccomplie,
+    AucuneTache
   }
 }
 </script>
