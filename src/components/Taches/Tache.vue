@@ -1,7 +1,7 @@
 <template>
     <q-item
       @click="modifierTache({id: id, updates: { accomplie: !tache.accomplie }})"
-      :class="!tache.accomplie ? 'bg-orange-1' : 'bg-green-3'"
+      :class="!tache.accomplie ? 'bg-orange-2' : 'bg-green-3'"
       clickable 
       v-ripple
       >
@@ -17,8 +17,10 @@
 
         <q-item-section 
         v-if="tache.dateEcheance"
-        side>
+        side
+        >
           <div class="row">
+
             <div class="column justify-center">
               <q-icon 
               name="event"
@@ -26,39 +28,51 @@
               class="q-mr-xs"
               />
             </div>
-            
+
             <div class="column">
+
               <q-item-label 
               caption
               class="row justify-end"
               >
-              {{ tache.dateCreation }}
+              {{ tache.dateEcheance }}
               </q-item-label>
+              
               <q-item-label 
               caption
               class="row justify-end"
               >
-                <small>{{ tache.heureCreation }}</small>
+              <small>{{ tache.heureEcheance }}</small>
               </q-item-label>
+              
             </div>
             
           </div>
         </q-item-section>
+        
         <q-item-section side>
-            <q-btn
-            @click.stop="showModifierTache = true" 
-            flat
-            round
-            color="brown-7"
-            icon="edit"
-            />
-            <q-btn
-            @click.stop="promptPourSupprimer(id)" 
-            flat
-            round
-            color="brown-7"
-            icon="delete"
-            />
+          <div class="row">
+            <div class="col">
+              <q-btn
+              @click.stop="showModifierTache = true" 
+              flat
+              round
+              color="grey-7"
+              icon="edit"
+              />
+            </div>
+            <div class="col">
+              <q-btn
+              @click.stop="promptPourSupprimer(id)" 
+              flat
+              round
+              color="red-7"
+              icon="delete"
+              />
+            </div>
+          </div>
+
+            
         </q-item-section>
 
         <!--Appel au composant EditTodo.vue dans une balise q-dialog qui s'appuie sur le booléen showAjouterTache pour s'afficher ou non -->
