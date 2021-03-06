@@ -2,13 +2,20 @@
   <q-page
   class="q-pa-md bg-dark"
   >
+    <div class="row q-mb-lg">
+      <recherche />
+      <tri />
+    </div>
+
+    <p class="text-brown-7" v-if="rechercher && !Object.keys(tachesARealiser).length && !Object.keys(tachesARealiser).length">Aucun résultat pour cette recherche.</p>
+    
     <aucune-tache 
-    v-if="!Object.keys(tachesARealiser).length">
+    v-if="!Object.keys(tachesARealiser).length && !rechercher">
     </aucune-tache>
 
     <tache-a-realiser 
     :tachesARealiser = "tachesARealiser" 
-    v-else
+    v-if="Object.keys(tachesARealiser).length"
     />
 
     <tache-accomplie 
@@ -42,8 +49,10 @@ import AddTodo from 'src/components/Taches/Modals/AddTodo'
 import TacheARealiser from 'src/components/Taches/TacheARealiser.vue'
 import TacheAccomplie from 'src/components/Taches/TacheAccomplie.vue'
 // import des Getters contenu dans le store
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import AucuneTache from 'src/components/Taches/AucuneTache.vue'
+import Recherche from 'src/components/Taches/Tools/Recherche.vue'
+import Tri from 'src/components/Taches/Tools/Tri.vue'
 export default {
   name: 'PageTodo',
   data() {
@@ -53,7 +62,8 @@ export default {
   },
   computed: {
     // On permet ici à PageTodo.vue d'accéder aux getters du store
-    ...mapGetters('taches', ['tachesARealiser', 'tachesAccomplies'])
+    ...mapGetters('taches', ['tachesARealiser', 'tachesAccomplies']),
+    ...mapState('taches', ['rechercher'])
   },
   mounted() {
     this.$root.$on('showAjouterTache', () => {
@@ -65,7 +75,9 @@ export default {
     AddTodo,
     TacheARealiser,
     TacheAccomplie,
-    AucuneTache
+    AucuneTache,
+    Recherche,
+    Tri
   }
 }
 </script>
