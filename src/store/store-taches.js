@@ -20,15 +20,52 @@ const state = {
             dateEcheance: '2020/02/25',
             heureEcheance: '17:38'
         }
-    }
+    },
+    rechercher: '',
+    tri: 'nom'
 }
 
 const getters = {
+    tacheTriees: (state) => {
+        let tachesTriees = {},
+            cleOrdonnee = Object.keys(state.taches)
+
+        cleOrdonnee.sort((a, b) => {
+            let tacheAProp = state.taches[a][state.tri].toLowerCase(),
+                tacheBProp = state.taches[b][state.tri].toLowerCase()
+            if(tacheAProp > tacheBProp) return 1
+            else if(tacheAProp < tacheBProp) return -1
+            else return 0
+        })
+        cleOrdonnee.forEach((key) => {
+            tachesTriees[key] = state.taches[key]
+        })
+        console.log('tachesTriees', tachesTriees)
+        return tachesTriees
+    },
+    tachesFiltrees: (state, getters) => {
+        let tachesTriees = getters.tacheTriees,
+            tachesFiltrees = {}
+        if (state.rechercher) {
+            Object.keys(tachesTriees).forEach(function (key) {
+                let tache = tachesTriees[key],
+                    tacheMinuscule = tache.nom.toLowerCase(),
+                    rechercheMinuscule = state.rechercher.toLowerCase()
+                if (tacheMinuscule.includes(rechercheMinuscule)) {
+                    tachesFiltrees[key] = tache
+                }
+    
+            });
+            return tachesFiltrees
+        }
+        return tachesTriees   
+    },
     // getters qui retourne les tâches non accomplies
-    tachesARealiser: (state) => {
+    tachesARealiser: (state, getters) => {
+        let tachesFiltrees = getters.tachesFiltrees
         let taches = {}
-        Object.keys(state.taches).forEach(function (key) {
-            let tache = state.taches[key]
+        Object.keys(tachesFiltrees).forEach(function (key) {
+            let tache = tachesFiltrees[key]
             if (!tache.accomplie) {
                 taches[key] = tache
             }
@@ -37,10 +74,11 @@ const getters = {
         return taches
     },
     // getters qui retourne les tâches accomplies
-    tachesAccomplies: (state) => {
+    tachesAccomplies: (state, getters) => {
+        let tachesFiltrees = getters.tachesFiltrees
         let taches = {}
-        Object.keys(state.taches).forEach(function (key) {
-            let tache = state.taches[key]
+        Object.keys(tachesFiltrees).forEach(function (key) {
+            let tache = tachesFiltrees[key]
             if (tache.accomplie) {
                 taches[key] = tache
             }
@@ -59,6 +97,12 @@ const mutations = {
     },
     ajouterTache(state, payload){
         Vue.set(state.taches, payload.id, payload.tache)
+    },
+    definirRechercher (state, value) {
+        state.rechercher = value
+    },
+    definirTrierPar (state, value) {
+        state.tri = value
     }
 }
 
@@ -76,6 +120,12 @@ const actions = {
             tache: tache
         }
         commit('ajouterTache', payload)
+    },
+    definirRechercher ({ commit }, value) {
+        commit('definirRechercher', value)
+    },
+    definirTrierPar ({ commit }, value) {
+        commit('definirTrierPar', value)
     }
 }
 
